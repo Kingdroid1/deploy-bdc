@@ -1,3 +1,5 @@
 module.exports = {
-  DB: 'mongodb://localhost:27017/Bdc'
+
+  DB: 'mongodb://bdc:ewaoluwa18@ds259377.mlab.com:59377/bdc'
+
 };
