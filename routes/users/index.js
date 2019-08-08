@@ -10,7 +10,7 @@ router.get('/user/:id', validateToken.verifyToken, userController.getUser);
 
 router.post('/add', userController.createUser);
 
-router.put('/user/:id', validateToken.verifyToken, userController.updateUser);
+router.put('/:id', userController.updateUser);
 
 router.post('/createPassword', userController.createPassword);
 
@@ -18,7 +18,7 @@ router.get('/seed', userController.seedAdmin);
 
 router.put('/password/:id', validateToken.verifyToken, userController.updatepassword);
 
-router.delete('/user/:id', validateToken.verifyToken, userController.deleteUser);
+router.delete('/:id', validateToken.verifyToken, validateToken.verifyToken, userController.deleteUser);
 
 router.post('/login', userController.login);
 

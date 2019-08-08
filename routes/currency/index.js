@@ -16,5 +16,6 @@ router.route('/updatecurrency/:id')
 
 router.route('/deletecurrency/:id')
   .delete(validateToken.verifyToken, currencyController.deleteCurrency);
+  
 
 module.exports = router;

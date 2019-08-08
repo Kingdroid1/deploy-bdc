@@ -84,3 +84,7 @@ module.exports.seedCurrency = (req, res) => {
   // seeded!
   res.send('Database seeded!');
 }
+
+
+
+

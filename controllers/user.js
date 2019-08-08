@@ -12,10 +12,11 @@ module.exports.createUser = (req, res) => {
 	);
 	console.log(req.body)
 	user.save()
-		.then(() => res.status(200)
+		.then(createdUser => res.status(201)
 			.json({
 				status: true,
-				message: 'user saved successfully'
+				message: 'user saved successfully',
+				
 			}))
 		.catch(err => res.send({
 			message: 'something went wrong ',
@@ -41,20 +42,40 @@ module.exports.getUser = (req, res) => {
 		.then(user => res.status(200)
 			.json({
 				status: true,
-				message: (user)
-			}))
+				user,
+				
+			})
+			)
 		.catch(err => res.send(err));
 }
 
+// module.exports.updateUser = (req, res) => {
+// 	User.findByIdAndUpdate(req.params.id, req.body, { new: true })
+// 		.then(user => res.status(200)
+// 			.json({
+// 				status: true,
+// 				user
+// 			}))
+// 		.catch(err => res.send(err));
+// }
+
+
+
 module.exports.updateUser = (req, res) => {
-	User.findByIdAndUpdate(req.params.id, req.body, { new: true })
-		.then(user => res.status(200)
-			.json({
-				status: true,
-				message: (user)
-			}))
-		.catch(err => res.send(err));
-}
+	let id = req.params.id
+	User.findByIdAndUpdate(id, req.body, { new: true })
+			.then(user => res.status(200)
+				.json({
+					status: true,
+					user,
+					updatedId:user._id
+				}))
+			.catch(err => res.send(err));
+	}
+
+
+
+
 
 module.exports.deleteUser = (req, res) => {
 	User.deleteOne({
@@ -87,7 +108,7 @@ module.exports.login = (req, res) => {
 					.then(result => {
 						if (result) {
 							const token = jwt.sign({ sub: user.id, role: user.role }, config.secret, {
-								expiresIn: 3600 // expires soon
+								expiresIn: 7200 // expires in 2 hours
 							});
 							const id = user._id;
 							const role = user.role;
@@ -100,19 +121,11 @@ module.exports.login = (req, res) => {
 										token,
 										id,
 										role,
-										location: result
+										location: result,
+										user
 									})
 								})
 								.catch(err => { return err });
-
-							//console.table(localStorage);
-							// localStorage.setItem("token", token);
-							// console.log(localStorage.getItem("token"));
-
-							console.log('Token:',token);
-							
-							//Vue.localStorage.set('token')
-
 
 						} else {
 							return res.status(201).json({

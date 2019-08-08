@@ -25,6 +25,8 @@ const rtsLocations = require('./routes/locations');
 const rtsTime = require('./routes/time');
 const users = require('./routes/users');
 const rtsOperators = require('./routes/bdcoperators');
+const rtsCurrency = require('./routes/currency');
+const rtsRates = require('./routes/rate');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config.DB, { useNewUrlParser: true }).then(
@@ -39,9 +41,11 @@ app.use(cors());
 // api routes
 app.use('/api', rtsIndex);
 app.use('/api', rtsLocations);
-app.use('/api', rtsTime);
+app.use('/api/time', rtsTime);
 app.use('/api', users);
 app.use('/api', rtsOperators);
+app.use('/api/rates', rtsRates);
+app.use('/api/currency', rtsCurrency);
 
 // global error handler
 app.use(errorHandler);

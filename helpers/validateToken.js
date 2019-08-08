@@ -23,8 +23,10 @@ validateToken.verifyToken = function(req, res, next){
 
         jwt.verify(bearerToken, config.secret, (err, result) => {
             if(!err) { 
+                console.log (result)
                 next();
             } else { 
+                console.log(err, result)
                 res.sendStatus(403);
             }
         });

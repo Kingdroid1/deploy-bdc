@@ -9,22 +9,29 @@ module.exports.createOperator = (req, res) => {
 		//need to add Operator details
 		req.body
 	);
-	console.log("Operator saved", operator);
-
+	
 	operator.save()
-		.then(() => res.status(200)
-		.json({
-			status: true,
-			message: 'Operator saved successfully'
-		}))
-		.catch(err => res.send({
-		message: 'something went wrong ',
-		err: err 
-	}));
+	.then((data) => {
+			console.log('operator saved',data)
+			res.status(200)
+			.json({
+				status: true,
+				message: 'Operator saved successfully'
+			});
+	})
+	.catch(err => {
+		console.log('error operator',err)
+		res.send({
+			message: 'something went wrong ',
+			err: err 
+		})
+	});
+
+	
 }
 
 module.exports.listOperators = (req, res) => {
-	Operator.find({})
+	Operator.find({}).limit(10)
 		.then(operators => res.status(200)
 			.json({
 				status: true,
