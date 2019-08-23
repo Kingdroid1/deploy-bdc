@@ -71,7 +71,6 @@ module.exports.deleteLocation = (req, res) => {
   let id = req.params.id
   Location.deleteOne(id)
     .then(location => {
-      console.log(location);
       res.status(200).json({
         status: true,
         msg: 'Location deleted successfully'

@@ -31,7 +31,7 @@ module.exports.getTimeById = (req, res) => {
     .then(time => res.status(200)
       .json({
         status: true,
-        message: (time)
+        result: (time)
       }))
     .then(err => res.send(err));
 }
@@ -43,7 +43,7 @@ module.exports.getTimeUnit = (req, res) => {
     .then(time => res.status(200)
       .json({
         status: true,
-        message: (time)
+        result: (time)
       }))
     .then(err => res.send(err));
 

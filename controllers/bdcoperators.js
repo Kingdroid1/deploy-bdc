@@ -1,12 +1,10 @@
 const Operator = require('../models/bdcoperators');
 const config = require('../config/config.json');
 const Location = require('../models/locations');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
+
 
 module.exports.createOperator = (req, res) => {
 	var operator = new Operator(
-		//need to add Operator details
 		req.body
 	);
 	
@@ -30,8 +28,9 @@ module.exports.createOperator = (req, res) => {
 	
 }
 
-module.exports.listOperators = (req, res) => {
-	Operator.find({}).limit(10)
+module.exports.listOperators = (req, res) =>{
+	const sortby= {createdAt:-1}
+	Operator.find({}).sort(sortby)
 		.then(operators => res.status(200)
 			.json({
 				status: true,
@@ -49,7 +48,8 @@ module.exports.getOperator = (req, res) => {
 		.then(operator => res.status(200)
 			.json({
 				status: true,
-				message: (operator)
+				// message: (operator)
+				operator
 			}))
 		.catch(err => res.send(err));
 }

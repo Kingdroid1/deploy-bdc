@@ -49,15 +49,6 @@ module.exports.getUser = (req, res) => {
 		.catch(err => res.send(err));
 }
 
-// module.exports.updateUser = (req, res) => {
-// 	User.findByIdAndUpdate(req.params.id, req.body, { new: true })
-// 		.then(user => res.status(200)
-// 			.json({
-// 				status: true,
-// 				user
-// 			}))
-// 		.catch(err => res.send(err));
-// }
 
 
 
@@ -92,9 +83,6 @@ module.exports.deleteUser = (req, res) => {
 
 module.exports.login = (req, res) => {
 	const email = req.body.email;
-	console.log('user email', email);
-	console.log(req.body);
-
 	User.findOne({ 'email': email })
 		.then(async (user) => {
 			if (!user) {
@@ -141,8 +129,8 @@ module.exports.login = (req, res) => {
 
 module.exports.updatepassword = (req, res) => {
 	const password = bcrypt.hashSync(req.body.password)
-
-	User.findOneAndUpdate(req.params.id, { 'password': password })
+	console.log('passwordhash',password)
+	User.findByIdAndUpdate(req.params.id, { 'password': password })
 		.then(user => res.status(200)
 			.json({
 				status: true,
@@ -153,7 +141,6 @@ module.exports.updatepassword = (req, res) => {
 
 module.exports.createPassword = (req, res) => {
 	const email = req.body.email;
-
 	User.findOne({ 'email': email })
 		.then(async (user) => {
 			if (!user) {
@@ -245,7 +232,7 @@ module.exports.seedAdmin = (req, res) => {
 }
 
 /**
- * Seed the database
+ * Logout
  */
 module.exports.logout = (req, res) => {
 

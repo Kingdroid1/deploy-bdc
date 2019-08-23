@@ -1,10 +1,16 @@
-	const Rate = require('../models/rate');
+const Rate = require('../models/rate');
 const Location = require('../models/locations');
 const dayTime = require('../models/time');
 const Time = require('./time-mgt');
-const moment = require('moment');
 const async = require('async');
+const moment = require('moment');
 
+function formatDate(date) {
+	var year = date.getFullYear().toString();
+	var month = (date.getMonth() + 101).toString().substring(1);
+	var day = (date.getDate() + 100).toString().substring(1);
+	return year + "-" + month + "-" + day;
+}
 
 module.exports.addRate = (req, res) => {
 
@@ -18,6 +24,7 @@ module.exports.addRate = (req, res) => {
 			rate.user_id = req.body.user_id;
 			rate.location = req.body.location;
 			rate.time = result;
+			rate.date = formatDate(new Date());
 
 			rate.save()
 				.then(() =>
@@ -35,77 +42,124 @@ module.exports.addRate = (req, res) => {
 
 }
 
-module.exports.getRate = (req, res) => {
 
-	async.waterfall([
-		_function1(req, res),
-		_function2,
-		_function3
-	], function (error, success) {
-		if (error) { console.log('Something is wrong!'); }
-		return console.log('Done!');
-	});
+function isEmpty(obj) {
+	for (var key in obj) {
+		if (obj.hasOwnProperty(key))
+			return false;
+	}
+	return true;
 }
 
-function _function1(req, res) {
-	return function (callback) {
-		Location.find({})
-			.exec(function (err, locations) {
-				if (err) callback(err);
-				// Return Location
-				let rateLocation = locations.map(location => {
-					return location.name;
-				});
-				console.log("loci:" + rateLocation);
-				callback(null, req, res, rateLocation)
+module.exports.getRate = (req, res) => {
+
+	const today = moment().startOf('day').format('YYYY-MM-D');
+
+	Rate.aggregate([
+		{ '$match': { date: today } },
+		{ $sort: { sellingRate: -1, buyingRate: 1, createdAt: -1 } },
+		{
+			$group: {
+				_id: '$location',
+				rates: {
+					$push: {
+						currency: '$baseCurrency',
+						date: '$date', selling: '$sellingRate',
+						buying: '$buyingRate', timeOfDay: '$time'
+					}
+				}
+			}
+		}
+	]).exec((err, rates) => {
+
+		if (err) return (err);
+
+		let check = isEmpty(rates);
+
+		switch (check) {
+			case false:
+				return res.status(200)
+					.json({
+						status: true,
+						result: rates
+					});
+
+			case true:
+				getMostRecentRate();
+
+			default: 
+				return undefined;
+		}
+
+	});
+
+	function getMostRecentRate() {
+
+		Rate.aggregate([
+			{ '$match': { date: { '$exists': true } } },
+			{ '$sort': { createdAt: -1, date: -1 } },
+			{
+				$group: {
+					_id: '$location',
+					rates: {
+						$push: {
+							currency: '$baseCurrency',
+							date: '$date', selling: '$sellingRate',
+							buying: '$buyingRate', timeOfDay: '$time'
+						}
+					}
+				}
+			}
+		])
+			.exec((err, rates) => {
+				if (err) return (err);
+
+				return res.status(200)
+					.json({
+						status: true,
+						result: rates
+					});
 			});
 	}
 }
 
-function _function2(req, res, rateLocation, callback) {
-	console.log(rateLocation, "got here");
-	dayTime.find({})
-		.exec(function (err, timeOfTheDay) {
-			if (err) callback(err);
-			// Return Time
-			console.log("timeofday ===>", timeOfTheDay);
-			let rateTime = timeOfTheDay.map(time => {
-				return time.timeOfDay;
-			});
+module.exports.listRate = (req, res) => {
 
-			callback(null, req, res, rateLocation, rateTime);
+	Rate.find()
+		.exec((err, rates) => {
+			if (err) callback(err);
+
+			return res.status(200)
+				.json({
+					status: true,
+					result: rates
+				});
 		});
 }
 
-function _function3(req, res, rateTime, rateLocation, callback) {
-	console.log("rateTime========>", rateTime, rateLocation)
-	const today = moment().startOf('day');
-	console.log("gte", today)
-	console.log("lte", moment(today).endOf('day').toDate())
-	Rate.find({
-		createdAt: {
-			$gte: today.toDate(),
-			$lte: moment(today).endOf('day').toDate()
-		}
-	})
-		.sort('-buyingRate sellingRate')
-		.where('time').all(rateTime)
-		.where('location').all(rateLocation)
-		.then(rate => res.status(200)
-			.json({
-				status: true,
-				result: rate
-			}))
-		.catch(err => res.send(err));
-	callback(null);
-}
+/**
+ * Seed the database
+ */
+module.exports.seedRate = (req, res) => {
+	// create some events
+	const rates = [
+		{ baseCurrency: 'USD', sellingRate: 260, buyingRate: 250, user_id: '5d384433850f0a49d8bd4af1', location: 'Lagos', time: 'morning', date: '2019-08-21' },
+		{ baseCurrency: 'USD', sellingRate: 260, buyingRate: 255, user_id: '5d384433850f0a49d8bd4af1', location: 'Kogi', time: 'morning', date: '2019-08-21' },
+		{ baseCurrency: 'USD', sellingRate: 260, buyingRate: 259, user_id: '5d384433850f0a49d8bd4af1', location: 'Lagos', time: 'afternoon', date: '2019-08-21' },
+		{ baseCurrency: 'USD', sellingRate: 260, buyingRate: 250, user_id: '5d384433850f0a49d8bd4af1', location: 'Lagos', time: 'evening', date: '2019-08-21' },
+		{ baseCurrency: 'USD', sellingRate: 260, buyingRate: 250, user_id: '5d384433850f0a49d8bd4af1', location: 'Kogi', time: 'morning', date: '2019-08-21' },
+		{ baseCurrency: 'USD', sellingRate: 260, buyingRate: 250, user_id: '5d384433850f0a49d8bd4af1', location: 'Apapa', time: 'morning', date: '2019-08-21' },
+	];
 
-module.exports.listRate = (req, res) => {
-	Rate.find({})
-		.then(rate => res.status(200)
-			.json({
-				status: true,
-				result: rate
-			}))
-		.catch(err => res.send(err));
+	// use the Event model to insert/save
+	Rate.deleteOne({}, () => {
+		for (rate of rates) {
+			console.log(rate)
+			var newRate = new Rate(rate);
+			newRate.save();
+		}
+	});
+
+	// seeded!
+	res.send('Database seeded!');
 }
