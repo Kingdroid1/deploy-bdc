@@ -49,7 +49,7 @@ module.exports.createNews = (req, res) => {
 }
 
 module.exports.listNews = (req, res) => {
-	News.find({}).limit(5)
+	News.find({}).limit(6)
 		.then(news => res.status(200)
 			.json({
 				status: true,
