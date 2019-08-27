@@ -11,19 +11,19 @@ const fetchData = async () => {
 
 const getResults = async () => {
   const $ = await fetchData();
-  
+   
   let totalRun = 0;
   let nrow = 2;
-
+  const cbnRates = [];
 
   currencies.clear();
-
   while (totalRun < 5) {
 
     let count = 0;
     let date = $(`table.mytables tbody tr:nth-child(${nrow}) > td:nth-child(1)`).text();
 
     while (count < 3 ) {
+
       let moneyType = $(`table.mytables tbody tr:nth-child(${nrow}) > td:nth-child(2)`).text();
 
       let rate = $(`table.mytables tbody tr:nth-child(${nrow}) > td:nth-child(4)`).text();
@@ -36,7 +36,11 @@ const getResults = async () => {
 
       nrow++
       count++
-    }    
+    };  
+
+    cbnRates.push([...currencies]);
+    currencies.clear();
+    
     totalRun++;
     switch(totalRun) {
       case 1: nrow = 14; break;
@@ -50,7 +54,7 @@ const getResults = async () => {
   }  
 
   return {
-    currencies: [...currencies]
+    ...cbnRates
   };
 
 }

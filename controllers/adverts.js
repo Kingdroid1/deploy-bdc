@@ -12,7 +12,7 @@ module.exports.createAdvert = (req, res, next) => {
    const advert = new Advert({
 	   _id: new mongoose.Types.ObjectId(),
 	   name : req.body.name,
-	   advertImage: req.file.path
+	   advertImage: req.file.filename
 
    });
    advert.save()
@@ -46,7 +46,7 @@ module.exports.listAdvert = (req, res) => {
 
 //new get all active method
 module.exports.getAllAdverts = (req, res, next) => {
-	Advert.find()
+	Advert.find().sort({createdAt:-1})
 	.select("name _id advertImage")
 	.exec()
 	.then(docs => {

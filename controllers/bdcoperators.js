@@ -48,7 +48,7 @@ module.exports.getOperator = (req, res) => {
 		.then(operator => res.status(200)
 			.json({
 				status: true,
-				// message: (operator)
+				// message: (operator),
 				operator
 			}))
 		.catch(err => res.send(err));
