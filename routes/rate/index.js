@@ -5,10 +5,10 @@ const rateController = require('../../controllers/rateManagement');
 const validateToken = require('./../../helpers/validateToken');
 
 router.route('/')
-  .post(validateToken.verifyToken, rateController.addRate);
+  .post( rateController.addRate);
 
 router.route('/listrates')
-  .get(validateToken.verifyToken, rateController.listRate);
+  .get( rateController.listRate);
 
 router.route('/?')
   .get(rateController.getRate);
