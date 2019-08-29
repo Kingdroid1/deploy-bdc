@@ -5,13 +5,21 @@ const rateController = require('../../controllers/rateManagement');
 const validateToken = require('./../../helpers/validateToken');
 
 router.route('/')
-  .post( rateController.addRate);
+  .post(validateToken.verifyToken, rateController.addRate);
 
 router.route('/listrates')
-  .get(rateController.listRate);
+  .get(validateToken.verifyToken, rateController.listRate);
 
-router.route('/')
+router.route('/?')
   .get(rateController.getRate);
+
+  router.route('/scroll')
+  .get(rateController.getScrollRate);
+  
+router.route('/csv?')
+  .get(rateController.csvRate);
+
+router.get('/history', rateController.historicalRate);
 
 router.get('/seed', rateController.seedRate);
 

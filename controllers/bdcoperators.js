@@ -41,15 +41,24 @@ module.exports.listOperators = (req, res) =>{
 
 module.exports.getOperator = (req, res) => {
 	const { id } = req.params;
-
-	// only allow admins to access other Operator records
    
 	Operator.findById(id)
 		.then(operator => res.status(200)
 			.json({
 				status: true,
-				// message: (operator),
 				operator
+			}))
+		.catch(err => res.send(err));
+}
+
+module.exports.getOperatorByLocation = (req, res) => {
+	const area = req.params.area;
+   
+	Operator.find({area: area})
+		.then(result => res.status(200)
+			.json({
+				status: true,
+				result
 			}))
 		.catch(err => res.send(err));
 }
