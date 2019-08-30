@@ -10,7 +10,7 @@ router.route('/')
 router.route('/listrates')
   .get( rateController.listRate);
 
-router.route('/?')
+router.route('/')
   .get(rateController.getRate);
 
   router.route('/scroll')

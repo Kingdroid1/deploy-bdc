@@ -1,9 +1,8 @@
 const Rate = require('../models/rate');
-const Location = require('../models/locations');
-const dayTime = require('../models/time');
 const Time = require('./time-mgt');
-const async = require('async');
 const moment = require('moment');
+const csv = require('csv');
+const fs = require('fs');
 
 function formatDate(date) {
 	var year = date.getFullYear().toString();
@@ -350,17 +349,34 @@ module.exports.historicalRate = (req, res) => {
 
 module.exports.csvRate = (req, res) => {
 
-	Rate.aggregate([
-		{ '$match': { time: 'morning' } }
-	])
+	let location = req.query.location? req.query.location : 'Lagos';
+	let currency = req.query.currency? req.query.currency: 'USD' ;
+
+	Rate.find({
+		'time': 'morning',
+		'location': location,
+		'baseCurrency': currency
+	}, { _id: 0, date: 1, sellingRate: 1, buyingRate: 1 })
 		.exec((err, rates) => {
 			if (err) return (err);
 
-			return res.status(200)
-				.json({
-					status: true,
-					result: rates
+			let columns = {
+				date: 'Day Index',
+				sellingRate: 'Selling Rate',
+				buyingRate: 'Buying Rate'
+			};
+
+			csv.stringify(rates, { header: true, columns: columns }, (err, output) => {
+				if (err) throw err;
+				fs.writeFile('my.csv', output, (err) => {
+					if (err) throw err;
+					else {
+						return res.download('my.csv', 'rates.csv', (err) => {
+							if (err) throw err;
+						})
+					}
 				});
+			});
 		});
 }
 
