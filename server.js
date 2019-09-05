@@ -14,10 +14,15 @@ require('./models/users');
 require('./models/locations');
 require('./models/time');
 require('./models/adverts');
+require('./models/leftsideadverts');
+require('./models/rightsideadverts');
+require('./models/baseadverts');
 require('./models/currency');
 require('./models/rate');
 require('./models/bdcoperators');
 require('./models/cbnscrapper');
+require('./models/contacts');
+
 
  
 //controllers 
@@ -36,9 +41,6 @@ app.use(cors());
 
 // api routes
 app.use('/api', rtsIndex);
-
-const {static} = require('express');
-app.use('/advertImages/', static('../Bdc-Frontend/public/advertImages'));
 
 // global error handler
 app.use(errorHandler);

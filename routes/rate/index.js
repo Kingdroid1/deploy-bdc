@@ -5,12 +5,12 @@ const rateController = require('../../controllers/rateManagement');
 const validateToken = require('./../../helpers/validateToken');
 
 router.route('/')
-  .post( rateController.addRate);
+  .post(rateController.addRate);
 
 router.route('/listrates')
   .get( rateController.listRate);
 
-router.route('/')
+router.route('/?')
   .get(rateController.getRate);
 
   router.route('/scroll')

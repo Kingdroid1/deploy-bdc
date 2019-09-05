@@ -6,12 +6,12 @@ const multer = require("multer");
 // const {static} = require('express');
 // app.use('/advertImages/', static('../Bdc-Frontend/public/advertImages'))
 // const getRates = require('../../../Bdc-Frontend/public/advertImages')
-const advertController = require ('../../controllers/adverts');
+const rightadvertController = require ('../../controllers/rightsideadverts');
 
 // Set Storage Engine using multer
 const storage = multer.diskStorage({
   destination: function(req, file, cb){
-  cb(null, 'C:/Users/FEYISEWA/Documents/sbsc/bdcfrontdeploy/public/advertImages')
+  cb(null, 'C:/Users/FEYISEWA/Documents/sbsc/bdcfrontdeploy/public/advertImagesRight')
 },
   filename: function (req, file, cb) {        
       // null as first argument means no error
@@ -38,17 +38,17 @@ const upload = multer({
 })
 // .single('advertImage');
 
-router.get('/', advertController.getAllAdverts);
+router.get('/', rightadvertController.getAllAdverts);
 
-router.post('/', upload.single('advertImage'), advertController.createAdvert);
+router.post('/', upload.single('advertImage'), rightadvertController.createAdvert);
 
-router.get('/seed', advertController.seedImage);
+router.get('/seed', rightadvertController.seedImage);
 
-router.get('/:id', advertController.getAdvertById);
+router.get('/:id', rightadvertController.getAdvertById);
 
-router.put('/:id', advertController.updateAdvert);
+router.put('/:id', rightadvertController.updateAdvert);
 
-router.delete('/:id', advertController.deleteAdvert);
+router.delete('/:id', rightadvertController.deleteAdvert);
 
 router.get('health', (req, res) => {
   res.send('OK');
