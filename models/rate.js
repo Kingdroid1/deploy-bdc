@@ -7,8 +7,8 @@ const rateSchema = new Schema({
     buyingRate: {type: Number, required: true},
     user_id: { type: Schema.ObjectId, ref: 'User' },
     time: { type: String, required: true },
-    date: {type: String, required: true},
-    location: { type: String, required: true }
+    location: { type: String, required: true },
+    date:{type:Date, required:true}
 }, {
     timestamps: true,
     collection: 'rates',

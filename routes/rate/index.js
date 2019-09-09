@@ -14,7 +14,7 @@ router.route('/?')
   .get(rateController.getRate);
 
   router.route('/scroll')
-  .get(rateController.getScrollRate);
+  .get(rateController.scrollingRate);
   
 router.route('/csv?')
   .get(rateController.csvRate);
@@ -22,5 +22,7 @@ router.route('/csv?')
 router.get('/history', rateController.historicalRate);
 
 router.get('/seed', rateController.seedRate);
+
+router.route('/:userId').get(rateController.getRatebyUserId);
 
 module.exports = router;

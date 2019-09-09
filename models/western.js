@@ -5,7 +5,6 @@ const Schema = mongoose.Schema;
 const westernSchema = new Schema({
     date: {  type: Date, required: true },
     baseCurrency:{ type: String, required: true }, 
-    buyingRate: { type: Number, required: true},
     sellingRate: { type: Number, required: true}
 
 
