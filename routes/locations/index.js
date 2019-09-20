@@ -8,9 +8,9 @@ router.route('/location').post(validateToken.verifyToken, locationControler.crea
 
 router.route('/location/:id').get(validateToken.verifyToken, locationControler.getLocationById);
 
-router.get('location/seed', locationControler.seedLocations);
+router.get('/location/seed', locationControler.seedLocations);
 
-router.route('/locations')
+router.route('/')
     .get(locationControler.getLocations);
 
 router.route('/location/:id').put(validateToken.verifyToken, locationControler.updateLocation);

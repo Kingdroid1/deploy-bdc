@@ -4,45 +4,52 @@ const mongoose = require("mongoose");
 const config = require('../config/config.json');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const { cloudinaryConfig, uploader } = require('../helpers/cloudinary');
+const { fileToDataUri } = require('../helpers/file');
 
+module.exports.createAdvert = async (req, res) => {
+	try {
 
-module.exports.createAdvert = (req, res, next) => {
-	// res.send('done');
-	console.log("from the advert backend", req.file)
-   const advert = new Advert({
-	   _id: new mongoose.Types.ObjectId(),
-	   name : req.body.name,
-	   advertImage: req.file.filename
+		const advertTypes = ["LEFT", "RIGHT", "LANDING", "BASE"];
+		if (!req.body.type || !advertTypes.includes(req.body.type)) {
+			return res.status(422).json({ 
+				message: "Validation error",
+				errors: `The type field must be one of ${advertTypes.join(', ')}`});
 
-   });
-   advert.save()
-   .then(result => {
-	   console.log("from inside the response", result);
-	   res.status(201).json({
-		   message: "Advert Created Successfully",
-		   createdAdvert: {
-			name: result.name,
-			_id: result._id
-		   }
-	   })
-   }).catch(err => {
-	   console.log("error from advert", err);
-	   res.status(500).json({
-		   msg:"server error",
-		   error: err
-	   })
-   })
-};
+		}
 
-module.exports.listAdvert = (req, res) => {
-	Advert.find({})
-		.then(advert => res.status(200)
-			.json({
-				status: true,
-				message: (advert)
-			}))
-		.then(err => res.send(err));
+		const data = req.body;
+		cloudinaryConfig();
+		const file = fileToDataUri(req.file).content;
+
+		const uploadResult = await uploader.upload(file, { folder: "naijabdc"});
+		
+		
+		const advert = await Advert.create({
+			name: data.name,
+			advertImage: uploadResult.secure_url,
+			targetUrl: data.targetUrl,
+			type: data.type
+		});
+
+		return res.status(201).json({
+			message: "Advert Created Successfully",
+			advert
+		});
+	} catch(error) {
+		return res.status(500).json({ 
+			msg:"server error",
+			error: error.message
+		});
+	}
 }
+
+module.exports.getAdverts = async (req, res) => {
+	const { type } = req.query;
+	const adverts = await Advert.find({ type: type ? type.toUpperCase(): undefined });
+	console.log(adverts);
+	return res.status(200).json({ adverts, type });
+};
 
 //new get all active method
 module.exports.getAllAdverts = (req, res, next) => {
@@ -144,11 +151,12 @@ module.exports.deleteAdvert = (req, res) => {
 
 module.exports.seedImage = (req, res) => {
 	console.log("file fro seed data", req.file)
-	const image = {
-		imageUrl: "C:\Users\SBSC\Pictures\signature.png"
-		// targetUrl: "",
-		// page: ""
-	};
+	const image = [
+		{
+			imageUrl: "C:\Users\SBSC\Pictures\signature.png"
+			// targetUrl: "",			
+		}
+	];
 	
 	Advert.deleteOne({}, () => {
 		var newImage = new Advert(image);

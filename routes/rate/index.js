@@ -21,6 +21,10 @@ router.route('/csv?')
 
 router.get('/history', rateController.historicalRate);
 
+router.get('/mobile?', rateController.mobileRate);
+
+router.get('/mobilehistory', rateController.mobilehistoricalRate);
+
 router.get('/seed', rateController.seedRate);
 
 router.route('/:userId').get(rateController.getRatebyUserId);

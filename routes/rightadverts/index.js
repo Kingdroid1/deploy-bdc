@@ -11,7 +11,7 @@ const rightadvertController = require ('../../controllers/rightsideadverts');
 // Set Storage Engine using multer
 const storage = multer.diskStorage({
   destination: function(req, file, cb){
-  cb(null, 'C:/Users/FEYISEWA/Documents/sbsc/bdcfrontdeploy/public/advertImagesRight')
+  cb(null, '../Bdc-Frontend/public/advertImagesRight')
 },
   filename: function (req, file, cb) {        
       // null as first argument means no error
