@@ -489,7 +489,7 @@ module.exports.mobileRate = (req, res) => {
 
 	Rate.find({
 		'location': location,
-	}, { _id: 0, createdAt: -1, sellingRate: 1, buyingRate: -1 })
+	})
 		.exec((err, rates) => {
 			if (err) return (err);
 
@@ -507,12 +507,16 @@ module.exports.mobilehistoricalRate = (req, res) => {
 	const nowDay = moment().day();
 	const lastDay = moment().day(nowDay - 7).format('YYYY-MM-D');
 
+	let location = req.query.location ? req.query.location : 'Lagos';
+
 	Rate.aggregate([
-		{ '$match': { $or: [{ createdAt: { $lt: new Date(today) } }, { createdAt: { $gte: new Date(lastDay) } }] } },
+		{ '$match': { $or: [{ createdAt: { $lt: new Date(today) } }, 
+			{ createdAt: { $gte: new Date(lastDay) } }],
+			'location': location }},
 		{ '$sort': { createdAt: -1, sellingRate: 1, buyingRate: -1 } },
 		{
 			$group: {
-				_id: { location: '$location', currency: '$baseCurrency', date: '$date' },
+				_id: { date: '$date' },
 				rates: {
 					$addToSet: '$$ROOT'
 				}
