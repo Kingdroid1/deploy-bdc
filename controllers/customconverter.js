@@ -56,8 +56,10 @@ module.exports.getusdrate = async (req, res) => {
     let convertedValue;
     if(typeof amount != 'number') res.status(403).send({error: 'Invalid Number'});
     convertedValue = await converter.converterUSD(amount);
-    res.send(`Converted value equals ${convertedValue}`);
-
+    res.send({
+        message: 'Converted value', 
+        payload:convertedValue
+    })
 }
 
 module.exports.getgbprate = async (req, res) => {
@@ -66,7 +68,10 @@ module.exports.getgbprate = async (req, res) => {
     let convertedValue;
     if(typeof amount != 'number') res.status(403).send({error: 'Invalid Number'});
     convertedValue = await converter.converterGBP(amount);
-    res.send(`Converted value equals ${convertedValue}`);
+    res.send({
+        message: 'Converted value', 
+        payload:convertedValue
+    })
 
 }
 
@@ -76,8 +81,10 @@ module.exports.geteurrate = async (req, res) => {
     let convertedValue;
     if(typeof amount != 'number') res.status(403).send({error: 'Invalid Number'});
     convertedValue = await converter.converterEUR(amount);
-    res.send(`Converted value equals ${convertedValue}`);
-
+        res.send({
+        message: 'Converted value', 
+        payload:convertedValue
+    })
 }
 
 module.exports.getyenrate = async (req, res) => {
@@ -86,6 +93,8 @@ module.exports.getyenrate = async (req, res) => {
     let convertedValue;
     if(typeof amount != 'number') res.status(403).send({error: 'Invalid Number'});
     convertedValue = await converter.converterYEN(amount);
-    res.send(`Converted value equals ${convertedValue}`);
-
+    res.send({
+        message: 'Converted value', 
+        payload:convertedValue
+    })
 }
