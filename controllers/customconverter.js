@@ -1,5 +1,6 @@
 const bdcconverter = require('../models/customconverter');
 const converter = require('../helpers/shared/converter');
+let payload;
 
 module.exports.seedconversion = (req, res) => {
     const customconversions = [{
@@ -53,24 +54,26 @@ module.exports.getcustomconversions = (req, res) => {
 
 module.exports.getusdrate = async (req, res) => {
     const {amount} = req.body;
-    let convertedValue;
     if(typeof amount != 'number') res.status(403).send({error: 'Invalid Number'});
-    convertedValue = await converter.converterUSD(amount);
+    payload = await converter.converterUSD(amount);
+    console.lo
     res.send({
         message: 'Converted value', 
-        payload:convertedValue
+        amount: payload.convertedValue,
+        sellingRate: payload.sellingRate
     })
 }
 
 module.exports.getgbprate = async (req, res) => {
 
     const {amount} = req.body;
-    let convertedValue;
     if(typeof amount != 'number') res.status(403).send({error: 'Invalid Number'});
-    convertedValue = await converter.converterGBP(amount);
+    payload = await converter.converterGBP(amount);
+    console.log(payload)
     res.send({
         message: 'Converted value', 
-        payload:convertedValue
+        amount:payload.convertedValue,
+        sellingRate: payload.sellingRate
     })
 
 }
@@ -78,23 +81,23 @@ module.exports.getgbprate = async (req, res) => {
 module.exports.geteurrate = async (req, res) => {
 
     const {amount} = req.body;
-    let convertedValue;
     if(typeof amount != 'number') res.status(403).send({error: 'Invalid Number'});
-    convertedValue = await converter.converterEUR(amount);
+    payload = await converter.converterEUR(amount);
         res.send({
         message: 'Converted value', 
-        payload:convertedValue
+        amount:payload.convertedValue,
+        sellingRate: payload.sellingRate
     })
 }
 
 module.exports.getyenrate = async (req, res) => {
 
     const {amount} = req.body;
-    let convertedValue;
     if(typeof amount != 'number') res.status(403).send({error: 'Invalid Number'});
-    convertedValue = await converter.converterYEN(amount);
+    payload = await converter.converterYEN(amount);
     res.send({
         message: 'Converted value', 
-        payload:convertedValue
+        amount:payload.convertedValue,
+        sellingRate: payload.sellingRate
     })
 }

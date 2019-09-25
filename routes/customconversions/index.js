@@ -1,18 +1,18 @@
 const express = require('express');
 const router = express.Router();
 
-const customconversion = require('./../../controllers/customconverter');
+const {seedconversion,getcustomconversions, getusdrate, getgbprate, geteurrate, getyenrate } = require('./../../controllers/customconverter');
 
-router.get('/seed', customconversion.seedconversion);
+router.get('/seed', seedconversion);
 
-router.get('/', customconversion.getcustomconversions);
+router.get('/', getcustomconversions);
 
-router.post('/usdrate', customconversion.getusdrate);
+router.post('/usd', getusdrate);
 
-router.post('/gbprate', customconversion.getgbprate);
+router.post('/gbp', getgbprate);
 
-router.post('/eurrate', customconversion.geteurrate);
+router.post('/eur', geteurrate);
 
-router.post('/yenrate', customconversion.getyenrate);
+router.post('/yen', getyenrate);
 
 module.exports = router;
