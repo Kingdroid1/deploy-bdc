@@ -17,6 +17,7 @@ const westernRouter = require('./westernrate/index');
 const bankRouter = require('./bankrate/index');
 const suscribeRouter = require('./suscribe/index');
 const contactRouter = require('./contact/index');
+const customrateRouter = require('./customconversions/index');
 
 
 router.use('/users', usersRouter);
@@ -35,5 +36,6 @@ router.use('/western', westernRouter);
 router.use('/bank', bankRouter);
 router.use('/suscribe',suscribeRouter);
 router.use('/contacts',contactRouter);
+router.use('/bdcconverter', customrateRouter);
 
 module.exports = router;

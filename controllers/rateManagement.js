@@ -508,11 +508,13 @@ module.exports.mobilehistoricalRate = (req, res) => {
 	const lastDay = moment().day(nowDay - 7).format('YYYY-MM-D');
 
 	let location = req.query.location ? req.query.location : 'Lagos';
+	let currency = req.query.currency ? req.query.currency : 'USD';
 
 	Rate.aggregate([
 		{ '$match': { $or: [{ createdAt: { $lt: new Date(today) } }, 
 			{ createdAt: { $gte: new Date(lastDay) } }],
-			'location': location }},
+			'location': location,
+			'baseCurrency': currency }},
 		{ '$sort': { createdAt: -1, sellingRate: 1, buyingRate: -1 } },
 		{
 			$group: {

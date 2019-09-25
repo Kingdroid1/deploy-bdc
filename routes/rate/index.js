@@ -23,7 +23,7 @@ router.get('/history', rateController.historicalRate);
 
 router.get('/mobile?', rateController.mobileRate);
 
-router.get('/mobilehistory', rateController.mobilehistoricalRate);
+router.get('/mobilehistory?', rateController.mobilehistoricalRate);
 
 router.get('/seed', rateController.seedRate);
 

@@ -22,6 +22,7 @@ require('./models/rate');
 require('./models/bdcoperators');
 require('./models/cbnscrapper');
 require('./models/contacts');
+require('./models/customconverter');
 
 
  
