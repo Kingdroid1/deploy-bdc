@@ -7,7 +7,7 @@ const errorHandler = require('./helpers/error-handler');
 // Use mongoose library to set up the database connection with MongoDB.
 // We can also use Mongoose to save the data in the database using Mongoose ORM.
 const mongoose = require('mongoose'), 
-config = require('./DB');
+config = process.env.MLAB_URL || process.env.MONGOLAB_URI || 'mongodb://localhost:27017/bdc';
 
 
 require('./models/users');
@@ -30,7 +30,7 @@ require('./models/customconverter');
 const rtsIndex = require('./routes/index');
 
 mongoose.Promise = global.Promise;
-mongoose.connect(config.DB, { useNewUrlParser: true }).then(
+mongoose.connect(config, { useNewUrlParser: true }).then(
   () => {console.log('Database is connected') },
   err => { console.log('Can not connect to the database'+ err)}
 );
