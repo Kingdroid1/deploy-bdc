@@ -1,25 +1,3 @@
-// Skip to content
-
-// Search or jump to…
-
-// Pull requests
-// Issues
-// Trending
-// Explore
-
-// @ebunola 
-// Learn Git and GitHub without any code!
-// Using the Hello World guide, you’ll start a branch, write comments, and open a pull request.
-
-
-// 1 0 feyex/Bdc
-//  Code  Issues 0  Pull requests 0  Wiki  Releases
-// Bdc/Bdc-Backend/controllers/rateManagement.js
-// @feyex feyex all up to date
-// 65361fa yesterday
-// @dtytomi @feyex @ebunola
-// 509 lines (408 sloc)  14.9 KB
-
 const Rate = require('../models/rate');
 const Location = require('../models/locations');
 const dayTime = require('../models/time');
@@ -378,14 +356,16 @@ module.exports.csvRate = (req, res) => {
 }
 
 module.exports.getRatebyUserId = (req, res) => {
-	// const { id } =req.params;
+
 	let userId = req.params.userId;
 
 	Rate.find({ user_id: userId })
 		.then(userId => res.status(200).json({
 			status: true,
 			userId: userId,
-		})).catch(err => res.send("Error from", err))
+		}))
+		.catch(err => res.send("Error from", err));
+
 }
 
 module.exports.mobileRate = (req, res) => {
@@ -409,7 +389,7 @@ module.exports.mobileRate = (req, res) => {
 
 
 module.exports.mobilehistoricalRate = (req, res) => {
-	
+
 	const today = moment().startOf('day').format('YYYY-MM-D');
 	const nowDay = moment().day();
 	const lastDay = moment().day(nowDay - 5).format('YYYY-MM-D');
