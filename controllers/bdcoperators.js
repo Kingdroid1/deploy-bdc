@@ -31,11 +31,15 @@ module.exports.createOperator = (req, res) => {
 module.exports.listOperators = (req, res) =>{
 	const sortby= {createdAt:-1}
 	Operator.find({}).sort(sortby)
-		.then(operators => res.status(200)
+		.then(operators => {
+			res.status(200)
 			.json({
 				status: true,
 				message: (operators)
-			}))
+			})
+			// console.log("bdc operators", operators);
+		})
+			
 		.catch(err => res.send(err));
 }
 

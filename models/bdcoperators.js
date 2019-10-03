@@ -3,13 +3,13 @@ const Schema = mongoose.Schema
 
 
 const operatorSchema = new Schema({
-    name: { type: String, required: true},
-    typeOfInstitution: { type: String, required: true},
+    name: { type: String},
+    typeOfInstitution: { type: String},
     streetAddress: { type: String },
     area: { type: String },
     state: { type: String },
     telephone: { type: String },
-    country: { type: String, required: true },
+    country: { type: String},
     ownershipType: { type: String },
     dateLicensed: { type: String },
     dateRegistered: { type: String },
@@ -17,12 +17,11 @@ const operatorSchema = new Schema({
     email: { type: String},
     role:{ 
         type: String, 
-        required: true,
         enum: ['operator', 'admin'],
         default: 'operator', },
 }, {
     timestamps: true,
-    collection: 'operators'
+    collection: 'bdcoperators'
 });
 
 const Operator = mongoose.model ('Operator', operatorSchema);
