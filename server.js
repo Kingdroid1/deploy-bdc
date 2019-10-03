@@ -8,7 +8,7 @@ const errorHandler = require('./helpers/error-handler');
 // We can also use Mongoose to save the data in the database using Mongoose ORM.
 const mongoose = require('mongoose'), 
 config = process.env.MLAB_URL || process.env.MONGOLAB_URI || 'mongodb://localhost:27017/Bdc';
-
+console.log('db config', config)
 
 require('./models/users');
 require('./models/locations');
