@@ -9,7 +9,7 @@ router.get('/operators', operatorController.listOperators);
 
 router.get('/operator/:id', operatorController.getOperator);
 
-router.get('/operatorsbylocation/:area', operatorController.getOperatorByLocation);
+router.get('/operatorsbylocation/:state', operatorController.getOperatorByLocation);
 
 router.post('/addoperator', operatorController.createOperator);
 

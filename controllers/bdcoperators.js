@@ -56,9 +56,9 @@ module.exports.getOperator = (req, res) => {
 }
 
 module.exports.getOperatorByLocation = (req, res) => {
-	const area = req.params.area;
+	const state = req.params.state;
    
-	Operator.find({area: area})
+	Operator.find({state: state})
 		.then(result => res.status(200)
 			.json({
 				status: true,
