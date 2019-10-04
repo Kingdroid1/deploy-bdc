@@ -375,7 +375,7 @@ module.exports.mobileRate = (req, res) => {
 
 	Rate.find({
 		'location': location,
-		createdAt: { $eq: new Date(today) },
+		createdAt: { $gte: new Date(today) },
 	})
 		.exec((err, rates) => {
 			if (err) return (err);
