@@ -1,8 +1,5 @@
 const Rate = require('../models/rate');
-const Location = require('../models/locations');
-const dayTime = require('../models/time');
 const Time = require('./time-mgt');
-const async = require('async');
 const moment = require('moment');
 const csv = require('csv');
 const fs = require('fs');
@@ -45,31 +42,8 @@ function rate_location(result) {
 	return RatesAll;
 }
 
-async function rate_scrolllocation(result) {
-	let location_rates = [];
-
-	result.forEach((location) => {
-		let obj = location;
-		let rates = obj.rates;
-		location_rates.push(select_rate(location._id, rates));
-	});
-	return location_rates;
-}
-
-function select_rate(location, rates) {
-
-	let mornings = rates.filter(rate => rate.timeOfDay == "morning");
-	let afternoons = rates.filter(rate => rate.timeOfDay == "afternoon");
-	let evenings = rates.filter(rate => rate.timeOfDay == "evening");
-
-	let currency_morning = mornings.filter(morning => morning)
-
-	return { location: location, morning: mornings[0], afternoon: afternoons[0], evening: evenings[0] };
-}
 
 function rate_historical(result) {
-	//console.log(result.result);
-
 
 	let locationRates = {};
 
