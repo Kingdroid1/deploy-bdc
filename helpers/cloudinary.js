@@ -1,9 +1,9 @@
 const { config, v2 } = require('cloudinary');
 
 const cloudinaryConfig = () => config({
-    cloud_name: 'ebunola',
-    api_key: '856989353684587',
-    api_secret:'NtFl-5VTHR4od7TJtKhlc1EydYg',
+    cloud_name: 'bdc-naija',
+    api_key: '984779179471927',
+    api_secret:'a0yDKpaT6RxhqEJl4MRFoeTAhM0',
 });
 
 const uploader = v2.uploader;

@@ -15,8 +15,8 @@
 
 import { config, uploader } from 'cloudinary';
 const cloudinary = () => config({
-cloud_name: 'ebunola',
-api_key:'856989353684587',
-api_secret:'NtFl-5VTHR4od7TJtKhlc1EydYg',
+cloud_name: 'bdc-naija',
+api_key:'984779179471927',
+api_secret:'a0yDKpaT6RxhqEJl4MRFoeTAhM0',
 });
 export { cloudinary, uploader };

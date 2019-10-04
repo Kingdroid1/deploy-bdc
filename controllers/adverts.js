@@ -22,7 +22,7 @@ module.exports.createAdvert = async (req, res) => {
 		cloudinaryConfig();
 		const file = fileToDataUri(req.file).content;
 
-		const uploadResult = await uploader.upload(file, { folder: "naijabdc"});
+		const uploadResult = await uploader.upload(file, { folder: "bdcnaija"});
 		
 		
 		const advert = await Advert.create({
@@ -74,7 +74,7 @@ module.exports.getAllAdverts = (req, res, next) => {
 		res.status(200).json(response);
 	})
 	.catch(err => {
-		console.log("error form the backend", err);
+		console.log("error from the backend", err);
 		res.status(500).json({
 			msg: "server err",
 			error: err
