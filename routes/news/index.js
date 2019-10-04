@@ -8,13 +8,13 @@ const newsController = require ('../../controllers/news');
 
 router.get('/', newsController.listNews);
 
-router.get('/:id', newsController.getNews);
+router.get('/fetch', newsController.createNews);
 
-router.post('/', newsController.createNews);
+// router.get('/:id', newsController.getNews);
 
-router.put('/:id', newsController.updateNews);
+// router.put('/:id', newsController.updateNews);
 
-router.delete('/:id', newsController.deleteNews);
+// router.delete('/:id', newsController.deleteNews);
 
 router.get('health', (req, res) => {
   res.send('OK');
