@@ -15,26 +15,25 @@ module.exports.createNews = async (req, res) => {
 			})
 			.then(response => {
 				this.newsData = response.articles;
-				this.newsData.push(response.articles);
 				console.log("am newsdata", this.newsData);
-				if (this.newsData.length) {
-					this.newsData.forEach(element => {
-						var news = new News();
+				// if (this.newsData.length) {
+				// 	this.newsData.forEach(element => {
+				// 		var news = new News();
 
-						news.source = element.source;
-						news.title = element.title;
-						news.content = element.content;
-						news.description = element.description;
-						news.source_url = element.url;
-						news.featured_image_url = element.urlToImage;
+				// 		news.source = element.source;
+				// 		news.title = element.title;
+				// 		news.content = element.content;
+				// 		news.description = element.description;
+				// 		news.source_url = element.url;
+				// 		news.featured_image_url = element.urlToImage;
 
-						news.save(function (err, resp) {
-							if (err) {
-								console.error(err);
-							} else {}
-						});
-					});
-				}
+				// 		news.save(function (err, resp) {
+				// 			if (err) {
+				// 				console.error(err);
+				// 			} else {}
+				// 		});
+				// 	});
+				// }
 
 			}).catch(err => {
 				throw err
