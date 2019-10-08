@@ -38,4 +38,8 @@ router.use('/suscribe',suscribeRouter);
 router.use('/contacts',contactRouter);
 router.use('/bdcconverter', customrateRouter);
 
+router.get('/', (req, res) => {
+  res.send('OK');
+});
+
 module.exports = router;
