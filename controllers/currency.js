@@ -69,8 +69,8 @@ module.exports.seedCurrency = (req, res) => {
     { name: 'USD' },
     { name: 'EUR' },
     { name: 'GBP' },
-		{ name: 'YEN' },
-		{name: 'NGN'}
+		{ name: 'YEN' }
+		//{name: 'NGN'}
   ];
 
   // use the Event model to insert/save

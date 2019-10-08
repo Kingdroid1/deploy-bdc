@@ -15,7 +15,7 @@ module.exports.createNews = async (req, res) => {
 			})
 			.then(response => {
 				this.newsData = response.articles;
-				console.log("am newsdata", this.newsData);
+				// console.log("am newsdata", this.newsData);
 				// if (this.newsData.length) {
 				// 	this.newsData.forEach(element => {
 				// 		var news = new News();
