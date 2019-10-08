@@ -232,7 +232,7 @@ module.exports.historicalRate = (req, res) => {
 	let lastDay = req.query.fromDay ? req.query.fromDay : moment().day(nowDay - 3).format('YYYY-MM-D');
 
 	Rate.aggregate([
-		{ '$match': { $or: [{ createdAt: { $lt: new Date(today) } }, { createdAt: { $lte: new Date(lastDay) } }] } },
+		{ '$match': { $or: [{ createdAt: { $lt: new Date(today) } }, { createdAt: { $gte: new Date(lastDay) } }] } },
 		{ '$sort': { createdAt: -1, sellingRate: 1, buyingRate: -1 } },
 		{
 			$group: {
