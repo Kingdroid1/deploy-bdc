@@ -19,7 +19,7 @@ router.route('/?')
 router.route('/csv?')
   .get(rateController.csvRate);
 
-router.get('/history', rateController.historicalRate);
+router.get('/history?', rateController.historicalRate);
 
 router.get('/mobile?', rateController.mobileRate);
 

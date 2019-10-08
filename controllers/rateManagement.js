@@ -132,9 +132,36 @@ module.exports.scrollingRate = (req, res) => {
 
 		if (err) return (err);
 
+		return res.status(200)
+			.json({
+				status: true,
+				result: rates
+			});
+
+	});
+
+}
+
+module.exports.getRate = (req, res) => {
+
+	const today = moment().startOf('day').format('YYYY-MM-D');
+
+	Rate.aggregate([
+		{ '$match': { createdAt: { $gte: new Date(today) } } },
+		{ $sort: { sellingRate: -1, buyingRate: 1, createdAt: -1 } },
+		{
+			$group: {
+				_id: { location: '$location', currency: '$baseCurrency' },
+				rates: {
+					$addToSet: '$$ROOT'
+				}
+			}
+		}
+	]).exec(async (err, rates) => {
+
+		if (err) return (err);
+
 		let check = isEmpty(rates);
-
-
 
 		switch (check) {
 			case false:
@@ -180,74 +207,7 @@ module.exports.scrollingRate = (req, res) => {
 					});
 			});
 	}
-}
 
-module.exports.getRate = (req, res) => {
-
-	const today = moment().startOf('day').format('YYYY-MM-D');
-
-	Rate.aggregate([
-		{ '$match': { createdAt: { $gte: new Date(today) } } },
-		{ $sort: { sellingRate: -1, buyingRate: 1, createdAt: -1 } },
-		{
-			$group: {
-				_id: { location: '$location', currency: '$baseCurrency' },
-				rates: {
-					$addToSet: '$$ROOT'
-				}
-			}
-		}
-	]).exec(async (err, rates) => {
-
-		if (err) return (err);
-
-		let check = isEmpty(rates);
-
-		switch (check) {
-			case false:
-
-				let result = await rate_location(rates);
-				console.log("Result ===> ", result);
-				return res.status(200)
-					.json({
-						status: true,
-						result: result
-					});
-
-			case true:
-				getMostRecentRate();
-			default:
-				return undefined;
-		}
-
-	});
-
-	function getMostRecentRate() {
-
-		Rate.aggregate([
-			{ '$match': { createdAt: { '$exists': true } } },
-			{ '$sort': { createdAt: -1, sellingRate: 1, buyingRate: -1 } },
-			{
-				$group: {
-					_id: { location: '$location', currency: '$baseCurrency' },
-					rates: {
-						$addToSet: '$$ROOT'
-					}
-				}
-			}
-		])
-			.exec(async (err, rates) => {
-				if (err) return (err);
-
-				let result = await rate_location(rates);
-
-				return res.status(200)
-					.json({
-						status: true,
-						result: result
-					});
-			});
-	}
 }
 
 module.exports.listRate = (req, res) => {
@@ -265,9 +225,11 @@ module.exports.listRate = (req, res) => {
 }
 
 module.exports.historicalRate = (req, res) => {
-	const today = moment().startOf('day').format('YYYY-MM-D');
+
 	const nowDay = moment().day();
-	const lastDay = moment().day(nowDay - 5).format('YYYY-MM-D');
+
+	let today = req.query.toDay ? req.query.toDay : moment().startOf('day').format('YYYY-MM-D');
+	let lastDay = req.query.fromDay ? req.query.fromDay : moment().day(nowDay - 3).format('YYYY-MM-D');
 
 	Rate.aggregate([
 		{ '$match': { $or: [{ createdAt: { $lt: new Date(today) } }, { createdAt: { $gte: new Date(lastDay) } }] } },
