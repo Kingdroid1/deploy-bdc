@@ -132,10 +132,12 @@ module.exports.scrollingRate = (req, res) => {
 
 		if (err) return (err);
 
+		let result = await rate_location(rates);
+
 		return res.status(200)
 			.json({
 				status: true,
-				result: rates
+				result: result
 			});
 
 	});
