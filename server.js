@@ -1,13 +1,20 @@
 const express = require('express');
 const app = express();
+const fs = require('fs');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const errorHandler = require('./helpers/error-handler');
+const certFileBuf = fs.readFileSync('./getClusterSSLPublicKey.crt');
 
 // Use mongoose library to set up the database connection with MongoDB.
 // We can also use Mongoose to save the data in the database using Mongoose ORM.
-const mongoose = require('mongoose'), 
-config = process.env.mongolab_url || process.env.MONGOLAB_URI || 'mongodb://localhost:27017/Bdc';
+const mongoose = require('mongoose'),
+  config = process.env.SCALEGRID_URL || process.env.MONGOLAB_URI || 'mongodb://localhost:27017/bdc';
+
+let options = {
+  sslCA: certFileBuf,
+  useNewUrlParser: true
+};
 
 require('./models/users');
 require('./models/locations');
@@ -24,14 +31,14 @@ require('./models/contacts');
 require('./models/customconverter');
 
 
- 
+
 //controllers 
 const rtsIndex = require('./routes/index');
 
 mongoose.Promise = global.Promise;
-mongoose.connect(config, { useNewUrlParser: true }).then(
-  () => {console.log('Database is connected') },
-  err => { console.log('Can not connect to the database'+ err)}
+mongoose.connect(config, options).then(
+  () => { console.log('Database is connected') },
+  err => { console.log('Can not connect to the database' + err) }
 );
 
 app.options('*', cors());
@@ -51,6 +58,6 @@ app.use(errorHandler);
 // start server
 const port = process.env.PORT || 5000;
 
-app.listen(port, function(){
- console.log('Listening on port ' + port);
+app.listen(port, function () {
+  console.log('Listening on port ' + port);
 });
