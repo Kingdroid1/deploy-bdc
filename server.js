@@ -16,6 +16,8 @@ let options = {
   useNewUrlParser: true
 };
 
+console.log("config: ", config);
+
 require('./models/users');
 require('./models/locations');
 require('./models/time');
