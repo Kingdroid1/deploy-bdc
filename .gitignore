@@ -46,3 +46,4 @@ testem.log
 Thumbs.db
 
 my.csv
+/getClusterSSLPublicKey.crt
