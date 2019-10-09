@@ -1,10 +1,8 @@
 const express = require('express');
 const app = express();
-const fs = require('fs');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const errorHandler = require('./helpers/error-handler');
-const certFileBuf = fs.readFileSync('./getClusterSSLPublicKey.crt');
 
 // Use mongoose library to set up the database connection with MongoDB.
 // We can also use Mongoose to save the data in the database using Mongoose ORM.
@@ -12,11 +10,8 @@ const mongoose = require('mongoose'),
   config = process.env.SCALEGRID_URL || process.env.mongolab_url || 'mongodb://localhost:27017/bdc';
 
 let options = {
-  sslCA: certFileBuf,
   useNewUrlParser: true
 };
-
-console.log("config: ", config);
 
 require('./models/users');
 require('./models/locations');
