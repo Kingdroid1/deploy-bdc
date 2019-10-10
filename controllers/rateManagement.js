@@ -185,8 +185,12 @@ module.exports.getRate = (req, res) => {
 	});
 
 	function getMostRecentRate() {
+
+		const startOfMonth = moment().startOf('month').format('YYYY-MM-DD');
+
 		Rate.aggregate([
-			{ '$sort': { createdAt: -1, sellingRate: -1, buyingRate: 1 } },
+		{ '$match': { createdAt: { $gte: new Date(startOfMonth) } } },
+		{ '$sort': { createdAt: -1, sellingRate: -1, buyingRate: 1 } },
 			{
 				$group: {
 					_id: { location: '$location', currency: '$baseCurrency' },
