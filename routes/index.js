@@ -39,7 +39,7 @@ router.use('/contacts',contactRouter);
 router.use('/bdcconverter', customrateRouter);
 
 router.get('/', (req, res) => {
-  res.send('OK');
+  res.send('api works');
 });
 
 module.exports = router;
