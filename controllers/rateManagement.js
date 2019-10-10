@@ -118,7 +118,7 @@ module.exports.scrollingRate = (req, res) => {
 	const today = moment().startOf('day').format('YYYY-MM-D');
 
 	Rate.aggregate([
-		{ '$match': { $or: [{ createdAt: { $gte: new Date(today) } }, { createdAt: { $lt: new Date(today) } }] } },
+		{ '$match': { createdAt: { $gte: new Date(today) } } },
 		{ $sort: { sellingRate: -1, buyingRate: 1, createdAt: -1 } },
 		{
 			$group: {
@@ -186,7 +186,6 @@ module.exports.getRate = (req, res) => {
 
 	function getMostRecentRate() {
 		Rate.aggregate([
-			{ '$match': { createdAt: { '$exists': true } } },
 			{ '$sort': { createdAt: -1, sellingRate: -1, buyingRate: 1 } },
 			{
 				$group: {
