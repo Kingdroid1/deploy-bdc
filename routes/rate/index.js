@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const rateController = require('../../controllers/rateManagement');
+const rateController = require('../../controllers/ratemanagement');
 const validateToken = require('./../../helpers/validateToken');
 
 router.route('/')

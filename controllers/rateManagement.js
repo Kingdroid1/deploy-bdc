@@ -1,5 +1,5 @@
 const Rate = require('../models/rate');
-const Time = require('./time-mgt');
+const Time = require('./timemgt');
 const moment = require('moment');
 const csv = require('csv');
 const fs = require('fs');

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const timeController = require('./../../controllers/time-mgt');
+const timeController = require('../../controllers/timemgt');
 const validateToken = require('./../../helpers/validateToken');
 
 router.route('/')
