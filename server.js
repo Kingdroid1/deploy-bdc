@@ -49,10 +49,6 @@ app.use(bodyParser.json());
 // api routes
 app.use('/api', rtsIndex);
 
-// get root 
-router.get('/', (req, res) => {
-  res.send('OK');
-});
 
 // global error handler
 app.use(errorHandler);
