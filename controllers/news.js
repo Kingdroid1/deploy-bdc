@@ -49,7 +49,7 @@ module.exports.createNews = async (req, res) => {
 
 module.exports.listNews = (req, res) => {
 	News.find({})
-		.limit(5)
+		.limit(4)
 		.sort({
 			createdAt: -1
 		})

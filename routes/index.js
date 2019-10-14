@@ -18,6 +18,7 @@ const bankRouter = require('./bankrate/index');
 const suscribeRouter = require('./suscribe/index');
 const contactRouter = require('./contact/index');
 const customrateRouter = require('./customconversions/index');
+const abconnewsRouter = require('./abconnews/index');
 
 
 router.use('/users', usersRouter);
@@ -37,6 +38,7 @@ router.use('/bank', bankRouter);
 router.use('/suscribe',suscribeRouter);
 router.use('/contacts',contactRouter);
 router.use('/bdcconverter', customrateRouter);
+router.use('/abconnews', abconnewsRouter);
 
 router.get('/', (req, res) => {
   res.send('api works');

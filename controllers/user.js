@@ -212,18 +212,26 @@ module.exports.comparepassword = (req, res) => {
  */
 module.exports.seedAdmin = (req, res) => {
 	// create some admin
-	const admin = {
+	const admin1 = {
 		firstname: 'Admin',
 		lastname: 'Admin',
 		email: 'admin@bdc.com',
 		password: 'admin',
 		role: 'admin',
 		location_id: '5d3821249cce6611d8179ccf'
-	};
+	}; 
+	// admin = {
+	// 	firstname: 'Sarah',
+	// 	lastname: 'Ike Chika',
+	// 	email: 'sarahdi4u@gmail.com',
+	// 	password: 'admin123',
+	// 	role: 'admin',
+	// 	location_id: '5d49acc7da5a170017dcf0fc'
+	// };
 
 	// use the Event model to insert/save
 	User.deleteOne({}, () => {
-		var newAdmin = new User(admin);
+		var newAdmin = new User(admin, admin1);
 		newAdmin.save();
 	});
 
