@@ -7,8 +7,7 @@ const errorHandler = require('./helpers/error-handler');
 // Use mongoose library to set up the database connection with MongoDB.
 // We can also use Mongoose to save the data in the database using Mongoose ORM.
 const mongoose = require('mongoose'),
-  config = 'mongodb://bdc:ewaoluwa18@ds259377.mlab.com:59377/bdc';
-  //process.env.SCALEGRID_URL || process.env.mongolab_url || 'mongodb://localhost:27017/bdc';
+  config = process.env.SCALEGRID_URL || process.env.mongolab_url || 'mongodb://localhost:27017/bdc';
 
 let options = {
   useNewUrlParser: true
